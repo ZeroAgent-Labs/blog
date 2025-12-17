@@ -73,79 +73,61 @@ Each file is a structured snapshot of that PC.
 
 You can roll this out however you like:
 
-manually (ask users to run it)
+- manually (ask users to run it)
+- logon script
+- your existing software deployment tool
+- RMM script
 
-logon script
+The important part is: **no resident agent**. The script runs, dumps JSON, and exits.
 
-your existing software deployment tool
+---
 
-RMM script
-
-The important part is: no resident agent.
-The script runs, dumps JSON, and exits.
-
-Step 2 — Store everything in one place
+## Step 2 — Store everything in one place
 
 This part is boring but important:
 
-Pick one share (or folder) where all JSON files live
+- Pick one share (or folder) where all JSON files live
+- Make sure your admin PC can read it
+- Treat that folder as your **raw inventory data lake**
 
-Make sure your admin PC can read it
+That folder becomes your source of truth. As long as you keep it, you can regenerate reports as many times as you want.
 
-Treat that folder as your raw inventory data lake
+---
 
-That folder becomes your source of truth.
-As long as you keep it, you can regenerate reports as many times as you want.
-
-Step 3 — Turn JSON into offline HTML reports and CSV inventories
+## Step 3 — Turn JSON into offline HTML reports and CSV inventories
 
 Raw JSON is great for machines, not for humans.
 
 For reporting and audits, you usually need:
 
-A PC list you can sort/filter in Excel (computers.csv)
+- A PC list you can sort/filter in Excel (`computers.csv`)
+- Per-site or per-department breakdowns
+- “Which PCs are low on RAM / disk?”
+- “Which OS / Office versions do we have and where?”
+- A human-readable HTML report you can show to non-IT people
 
-Per-site or per-department breakdowns
+This is where I use **Zero Agent Viewer** — a small portable `.exe` designed specifically for this workflow.
 
-“Which PCs are low on RAM / disk?”
-
-“Which OS / Office versions do we have and where?”
-
-A human-readable HTML report you can show to non-IT people
-
-This is where I use Zero Agent Viewer — a small portable .exe designed specifically for this workflow.
-
-Note: This is not an RMM/CMDB. It’s a run-once inventory + report generator.
+> Note: This is **not** an RMM/CMDB. It’s a **run-once inventory + report generator**.
 
 The flow looks like this:
 
-Point the Viewer at the folder with all your JSON files
-
-(Optional) define your own groupings in a simple pc_groups.csv, like:
-
-SiteA,PC-001
-
-SiteB,PC-050
-
-etc.
-
-Click Generate Reports
+1) Point the Viewer at the folder with all your JSON files  
+2) (Optional) define your own groupings in a simple `pc_groups.csv`, like:
+   - `SiteA,PC-001`
+   - `SiteB,PC-050`
+   - etc.
+3) Click **Generate Reports**
 
 You get:
 
-A grouped offline HTML report with:
-
-grouped PCs (by site/department/whatever you defined)
-
-drill-down into each machine
-
-quick filters and summaries
-
-CSV exports:
-
-computers.csv — one row per PC
-
-plus other summary tables ready for Excel / Power BI / internal tooling
+- A grouped offline HTML report with:
+  - grouped PCs (by site/department/whatever you defined)
+  - drill-down into each machine
+  - quick filters and summaries
+- CSV exports:
+  - `computers.csv` — one row per PC
+  - plus other summary tables ready for Excel / Power BI / internal tooling
 
 If you want to see what the HTML output looks like before touching your own data, here’s a live sample report with dummy data:
 
@@ -153,78 +135,67 @@ If you want to see what the HTML output looks like before touching your own data
 
 It’s static HTML + JS — open it in any browser, email it, archive it with your audit docs, etc.
 
-Why this works well as a “yearly snapshot” workflow
+---
 
-This isn’t trying to replace your RMM or a full CMDB.
-Instead, it’s optimized for:
+## Why this works well as a “yearly snapshot” workflow
 
-Yearly (or quarterly) inventory audits
+This isn’t trying to replace your RMM or a full CMDB. Instead, it’s optimized for:
 
-New client onboarding
-
-Pre-migration assessments
-
-“We haven’t had a proper inventory in years, let’s fix that” projects
+- Yearly (or quarterly) inventory audits
+- New client onboarding
+- Pre-migration assessments
+- “We haven’t had a proper inventory in years, let’s fix that” projects
 
 Pros:
 
-No agents to deploy/remove
+- No agents to deploy/remove
+- No central server to maintain
+- All data stays in your environment (local/network share)
+- Outputs are boring but useful (offline HTML/CSV deliverables)
 
-No central server to maintain
+Because the Viewer is a single `.exe`, you can:
 
-All data stays in your environment (local/network share)
+- keep it in your admin toolbox
+- reuse it for future inventories without rebuilding anything
+- generate deliverables consistently every time
 
-Outputs are boring but useful (offline HTML/CSV deliverables)
+---
 
-Because the Viewer is a single .exe, you can:
-
-keep it in your admin toolbox
-
-reuse it for future inventories without rebuilding anything
-
-generate deliverables consistently every time
-
-If you want to try this workflow as-is
+## If you want to try this workflow as-is
 
 There are many ways to DIY:
 
-Write your own PowerShell collector
-
-Aggregate JSON with scripts
-
-Hack together your own HTML/CSV exports
+- Write your own PowerShell collector
+- Aggregate JSON with scripts
+- Hack together your own HTML/CSV exports
 
 If you enjoy that — honestly, go for it. I did that for a while.
 
 If you’d rather skip the glue code and run the full flow, I packaged my setup as:
 
-Zero Agent Viewer — Agentless Windows PC Inventory & Audit Reports
+**Zero Agent Viewer — Agentless Windows PC Inventory & Audit Reports**  
 https://www.zeroagentlabs.com/
 
 It includes:
 
-the pre-compiled Viewer .exe
-
-the free Collector script
-
-config files (grouping etc.)
-
-a short user guide
-
-and a 30-day money-back guarantee
+- the pre-compiled Viewer `.exe`
+- the free Collector script
+- config files (grouping etc.)
+- a short user guide
+- and a 30-day money-back guarantee
 
 So you can test it in a real environment without committing long-term.
 
-Quick questions (I’d love your feedback)
+---
+
+## Quick questions (I’d love your feedback)
 
 If you do annual inventories or audit deliverables, I’m curious:
 
-What’s your biggest pain point with yearly inventory?
-
-Do you need software inventory as much as hardware, or vice versa?
-
-Would an “audit pack” deliverable (offline HTML + CSV) be useful in your workflow?
+1) What’s your biggest pain point with yearly inventory?  
+2) Do you need **software inventory** as much as hardware, or vice versa?  
+3) Would an “audit pack” deliverable (offline HTML + CSV) be useful in your workflow?
 
 Either way, I hope this post gives you a clean mental model for:
 
-“Once a year, collect everything, generate HTML + CSV, archive the evidence, and be done.”
+> “Once a year, collect everything, generate HTML + CSV, archive the evidence, and be done.”

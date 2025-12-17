@@ -22,4 +22,5 @@ Run PowerShell collector on PCs → gather JSON → generate offline HTML/CSV re
 
 ## Articles
 - [How to Run a Yearly Windows PC Inventory with No Agents](./How%20to%20Run%20a%20Yearly%20Windows%20PC%20Inventory%20with%20No%20Agents.md)
+- [Operations Runbook: Agentless Yearly PC Inventory](./Operations%20Runbook%20-%20Agentless%20Yearly%20PC%20Inventory.md)
 

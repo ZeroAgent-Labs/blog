@@ -13,7 +13,7 @@ Run PowerShell collector on PCs → gather JSON → generate offline HTML/CSV re
 ## Recommended path
 ### If you want the full workflow (most people)
 - **How to Run a Yearly Windows PC Inventory with No Agents**  
-  → `./How%20to%20Run%20a%20Yearly%20Windows%20PC%20Inventory%20with%20No%20Agents.md`
+  → `[How to Run a Yearly Windows PC Inventory with No Agents](./How%20to%20Run%20a%20Yearly%20Windows%20PC%20Inventory%20with%20No%20Agents.md)`
 
 ### If you only want the collector (free)
 - Collector repo: https://github.com/ZeroAgent-Labs/ZeroAgent-Inventory

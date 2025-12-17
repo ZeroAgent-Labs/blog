@@ -67,6 +67,8 @@ A typical run looks like this:
   PC-003.json
   ...
 
+  ```
+
 Each file is a structured snapshot of that PC.
 
 You can roll this out however you like:
